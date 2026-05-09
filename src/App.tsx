@@ -8,11 +8,11 @@ import { Exercise } from './features/exercise/components/Exercise'
 import { Meditation } from './features/meditation/components/Meditation'
 import { Notes } from './features/notes/components/Notes'
 import { Auth } from './features/auth/components/Auth'
-import { useStore } from './core/hooks/useStore'
+import { useStore, StoreProvider } from './core/hooks/useStore'
 
 function AnimatedRoutes() {
   const location = useLocation()
-  const { isAuthenticated } = useStore(state => state.auth)
+  const isAuthenticated = useStore(state => state.isAuthenticated)
 
   return (
     <Routes location={location}>
@@ -33,8 +33,10 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AnimatedRoutes />
-    </BrowserRouter>
+    <StoreProvider>
+      <BrowserRouter>
+        <AnimatedRoutes />
+      </BrowserRouter>
+    </StoreProvider>
   )
 }
