@@ -3,7 +3,7 @@ import { AnimatePresence } from 'framer-motion'
 import { AppShell } from './components/layout/AppShell'
 import { Dashboard } from './features/dashboard/components/Dashboard'
 import { HealthTracking } from './features/health-tracking/components/HealthTracking'
-import { Nutrition } from './features/nutrition/components/Nutrition'
+//import { Nutrition } from './features/nutrition/components/Nutrition'
 import { Exercise } from './features/exercise/components/Exercise'
 import { Meditation } from './features/meditation/components/Meditation'
 import { Notes } from './features/notes/components/Notes'
@@ -22,7 +22,6 @@ function AnimatedRoutes() {
         <Route element={<AppShell />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/health" element={<HealthTracking />} />
-          <Route path="/nutrition" element={<Nutrition />} />
           <Route path="/exercise" element={<Exercise />} />
           <Route path="/meditation" element={<Meditation />} />
           <Route path="/notes" element={<Notes />} />
