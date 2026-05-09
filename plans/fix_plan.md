@@ -1,53 +1,43 @@
-# 🚀 Premium PWA & UI Transformation Roadmap
+# Premium PWA & UI Transformation Roadmap (Fix Plan)
 
-## 🎯 Amaç
-Mevcut projeyi modern UI/UX, güçlü mimari ve tam PWA (Progressive Web App) desteği ile **premium bir dijital deneyime dönüştürmek**.
+Bu plan, YaşamKoçu (Personal Growth Tracker) uygulamasının tespit edilen eksikliklerini gidererek onu "Premium UI" ve "Professional PWA" standartlarına taşımayı hedeflemektedir.
 
----
+## Mevcut Eksiklikler (Tespitler)
 
-# 🏗️ Faz 1 — PWA & Core Altyapı
-## 1.1 Progressive Web App (PWA)
-- [ ] **Manifest**: `public/manifest.json` yapılandırması (premium ikonlar, tema renkleri).
-- [ ] **Service Worker**: Vite PWA plugin ile çevrimdışı çalışma ve cache yönetimi.
-- [ ] **Installable**: Tarayıcıda "Uygulamayı Yükle" desteği ve mobil uyumluluk.
+1. **PWA Standartları**: 
+   - `vite.config.ts` içinde tanımlı olan ikonlar (`pwa-192x192.png`, `pwa-512x512.png`, `apple-touch-icon.png`, `favicon.ico`) `public/` dizininde **bulunmuyor**.
+2. **Premium Tipografi**: Sadece `Inter` fontu yüklü. Başlıklar için premium görünüm sağlayan `Outfit` (veya `Satoshi`) eksik.
+3. **Sayfa Animasyonları (Framer Motion)**: `App.tsx` içerisinde `<AnimatePresence>` kullanılmış ancak route'ların içi `<motion.div>` ile sarmalanmadığı için sayfa geçiş animasyonları (fade, slide) çalışmıyor.
+4. **Glassmorphism & Mesh Gradients**: `tailwind.config.ts` ve `index.css`'te temel glass sınıfları var, ancak modern *mesh gradient* arka planları ve asimetrik *Bento Grid* yapıları eksik. AppShell sidebar'ında glass efekti yok.
+5. **State Management**: Zustand store bulunuyor ancak kullanıcı verilerinin kalıcılığı için `persist` middleware (LocalStorage) entegrasyonu eksik gibi görünüyor.
 
-## 1.2 Tasarım Sistemi (Design Tokens)
-- [ ] **Modern Typography**: Outfit (başlıklar) ve Inter (gövde) fontları.
-- [ ] **Color Palette**: HSL tabanlı, derinlik hissi veren dark/light mode renkleri.
-- [ ] **Tailwind Config**: Glassmorphism, glow efektleri ve custom shadow tanımları.
+## Yapılacak Değişiklikler (Adım Adım)
 
----
+Aşağıdaki adımlar sırayla uygulanacaktır:
 
-# 🎨 Faz 2 — Premium UI & UX (Visual Excellence)
-## 2.1 Glassmorphism & Modern Layout
-- [ ] **AppShell**: Sayfa geçişlerini yöneten, gradient arka planlı ana iskelet.
-- [ ] **Navbar**: Blur efektli, şeffaf ve scroll duyarlı premium navigasyon.
-- [ ] **Reusable UI**: Button, Card ve Modal bileşenlerinin glassmorphism ile tasarımı.
+### 1. PWA & Asset Management
+PWA ikonlarını üretecek ve gereksiz dosyaları temizleyeceğiz.
 
-## 2.2 Dinamik Animasyonlar (Framer Motion)
-- [ ] **Page Transitions**: Sayfalar arası yumuşak slide ve fade efektleri.
-- [ ] **Micro-interactions**: Etkileşimli öğelerde (buton, input) dokunsal geri bildirim hissi veren animasyonlar.
-- [ ] **Staggered Entry**: Liste ve kartların sırayla ekrana gelme animasyonları.
+- [x] [NEW] `public/favicon.svg` (SVG vektör formatı oluşturuldu ve vite.config.ts ikon tanımlarına entegre edildi)
+- [x] [DELETE] `public/manifest.json` (Vite eklentisi otomatik üretecek)
+- [x] [DELETE] `public/service-worker.js` (Vite eklentisi otomatik üretecek)
 
----
+### 2. Typography & Tailwind Config
+Premium fontların eklenmesi ve Bento Grid / Mesh Gradient token'larının tanımlanması.
 
-# 🧠 Faz 3 — Mimari & Performans
-## 3.1 State Management (Zustand)
-- [ ] Uygulama genelinde merkezi state yönetimi.
-- [ ] LocalStorage persist desteği ile kullanıcı tercihlerinin korunması.
+- [x] [MODIFY] `index.html`: Google Fonts üzerinden `Outfit` fontunu ekleyeceğiz.
+- [x] [MODIFY] `tailwind.config.ts`: `fontFamily` bölümüne `heading: ['Outfit', 'sans-serif']` eklenecek. Bento grid için özel safelist veya grid alan tanımları yapılacak.
+- [x] [MODIFY] `src/index.css`: Mesh gradient animasyonları ve daha derin glassmorphism (`backdrop-blur-lg`, `bg-white/5`) sınıfları eklenecek.
 
-## 3.2 Veri & Form Güvenliği
-- [ ] **Zod + React Hook Form**: Tip güvenli ve anlık doğrulamalı form yapısı.
-- [ ] **Sonner**: Premium toast bildirimleri ile kullanıcı geri bildirimi.
+### 3. Core Architecture & UI 
+Framer Motion entegrasyonu ve State kalıcılığı.
 
----
+- [x] [MODIFY] `src/App.tsx`: Rotaları `framer-motion` `<motion.div>` komponenti ile sarıp, pürüzsüz sayfa geçişleri ekleyeceğiz. (AppShell Outlet'i AnimatePresence ile güncellendi)
+- [x] [MODIFY] `src/components/layout/AppShell.tsx`: Sidebar ve Header için tam "Glassmorphism" ve border-white/20 detaylarını entegre edeceğiz. Mesh gradient eklendi.
+- [x] [MODIFY] `src/core/store/store.ts`: Zustand state'lerine `persist` (LocalStorage) desteği eklenecek.
 
-# 🧪 Faz 4 — Optimizasyon & SEO
-- [ ] **SEO Strategy**: Meta tags, OpenGraph (sosyal medya paylaşım) optimizasyonu.
-- [ ] **Performance**: Image lazy-loading ve component code-splitting.
-- [ ] **Accessibility**: Erişilebilirlik standartlarına (ARIA) tam uyum.
+### 4. Dashboard (Bento Grid Uygulaması)
+Dashboard'u premium asimetrik Bento tasarımına çevireceğiz.
 
----
-
-# 🔥 Öncelikli Adım: PWA + AppShell
-*Kullanıcının uygulamayı telefonuna indirebilmesi ve açtığında gördüğü o "premium cam" (glass) efekti, güven ve kalite algısını zirveye taşır.*
+- [x] [MODIFY] `src/components/ui/BentoGrid.tsx` ve `src/features/dashboard/components/Dashboard.tsx`: Veri gösterimini dinamik CSS Grid (Bento Grid) yapısına ve Glassmorphism kartlara çevirdik.
+- [x] [FIX] Bağımlılık Eksikliği: Derleme ve deploy edilebilirlik sorunu `npm install` komutu ile çözüldü. Artık proje build alınabilir durumda.

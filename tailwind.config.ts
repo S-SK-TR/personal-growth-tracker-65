@@ -31,7 +31,8 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif']
+        sans: ['Inter', 'sans-serif'],
+        heading: ['Outfit', 'sans-serif']
       },
       backdropBlur: {
         sm: '4px',
@@ -41,7 +42,12 @@ export default {
       boxShadow: {
         'glass': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         'glass-md': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        'glass-lg': '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+        'glass-lg': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        'glass-xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)'
+      },
+      backgroundImage: {
+        'mesh-light': 'var(--mesh-light)',
+        'mesh-dark': 'var(--mesh-dark)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

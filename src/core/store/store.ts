@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import { createContext, useContext } from 'react'
 import { useStore as useZustandStore } from 'zustand'
 
@@ -74,60 +75,67 @@ export const useStore = () => {
   return useZustandStore(api)
 }
 
-export const createStore = () => create<Store>((set) => ({
-  // Auth State
-  isAuthenticated: false,
-  user: null,
+export const createStore = () => create<Store>()(
+  persist(
+    (set) => ({
+      // Auth State
+      isAuthenticated: false,
+      user: null,
 
-  // Auth Actions
-  login: (user) => set({ isAuthenticated: true, user }),
-  logout: () => set({ isAuthenticated: false, user: null }),
+      // Auth Actions
+      login: (user) => set({ isAuthenticated: true, user }),
+      logout: () => set({ isAuthenticated: false, user: null }),
 
-  // Health Tracking State
-  measurements: [],
+      // Health Tracking State
+      measurements: [],
 
-  // Health Tracking Actions
-  addMeasurement: (measurement) => set((state) => ({
-    measurements: [...state.measurements, measurement]
-  })),
-  updateMeasurement: (date, updatedMeasurement) => set((state) => ({
-    measurements: state.measurements.map((m) =>
-      m.date === date ? { ...m, ...updatedMeasurement } : m
-    )
-  })),
-  deleteMeasurement: (date) => set((state) => ({
-    measurements: state.measurements.filter((m) => m.date !== date)
-  })),
+      // Health Tracking Actions
+      addMeasurement: (measurement) => set((state) => ({
+        measurements: [...state.measurements, measurement]
+      })),
+      updateMeasurement: (date, updatedMeasurement) => set((state) => ({
+        measurements: state.measurements.map((m) =>
+          m.date === date ? { ...m, ...updatedMeasurement } : m
+        )
+      })),
+      deleteMeasurement: (date) => set((state) => ({
+        measurements: state.measurements.filter((m) => m.date !== date)
+      })),
 
-  // Nutrition State
-  meals: [],
+      // Nutrition State
+      meals: [],
 
-  // Nutrition Actions
-  addMeal: (meal) => set((state) => ({
-    meals: [...state.meals, meal]
-  })),
-  updateMeal: (id, updatedMeal) => set((state) => ({
-    meals: state.meals.map((m) =>
-      m.id === id ? { ...m, ...updatedMeal } : m
-    )
-  })),
-  deleteMeal: (id) => set((state) => ({
-    meals: state.meals.filter((m) => m.id !== id)
-  })),
+      // Nutrition Actions
+      addMeal: (meal) => set((state) => ({
+        meals: [...state.meals, meal]
+      })),
+      updateMeal: (id, updatedMeal) => set((state) => ({
+        meals: state.meals.map((m) =>
+          m.id === id ? { ...m, ...updatedMeal } : m
+        )
+      })),
+      deleteMeal: (id) => set((state) => ({
+        meals: state.meals.filter((m) => m.id !== id)
+      })),
 
-  // Exercise State
-  workouts: [],
+      // Exercise State
+      workouts: [],
 
-  // Exercise Actions
-  addWorkout: (workout) => set((state) => ({
-    workouts: [...state.workouts, workout]
-  })),
-  updateWorkout: (id, updatedWorkout) => set((state) => ({
-    workouts: state.workouts.map((w) =>
-      w.id === id ? { ...w, ...updatedWorkout } : w
-    )
-  })),
-  deleteWorkout: (id) => set((state) => ({
-    workouts: state.workouts.filter((w) => w.id !== id)
-  }))
-}))
+      // Exercise Actions
+      addWorkout: (workout) => set((state) => ({
+        workouts: [...state.workouts, workout]
+      })),
+      updateWorkout: (id, updatedWorkout) => set((state) => ({
+        workouts: state.workouts.map((w) =>
+          w.id === id ? { ...w, ...updatedWorkout } : w
+        )
+      })),
+      deleteWorkout: (id) => set((state) => ({
+        workouts: state.workouts.filter((w) => w.id !== id)
+      }))
+    }),
+    {
+      name: 'growth-tracker-storage'
+    }
+  )
+)

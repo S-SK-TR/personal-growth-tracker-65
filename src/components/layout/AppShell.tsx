@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Home, Dumbbell, Apple, Heart, BookOpen, Moon, Sun, Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import { useStore } from '@/core/hooks/useStore'
@@ -25,7 +25,7 @@ export function AppShell() {
   }
 
   return (
-    <div className="flex h-screen bg-background text-text-primary">
+    <div className="flex h-screen bg-mesh-light dark:bg-mesh-dark bg-background text-text-primary">
       {/* Mobile Sidebar Toggle */}
       <button
         className="md:hidden fixed top-4 left-4 z-50 p-2 rounded-full bg-surface text-text-primary"
@@ -83,15 +83,17 @@ export function AppShell() {
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto bg-background">
         <div className="p-4 md:p-8">
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Outlet />
-          </motion.div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
         </div>
       </main>
     </div>
