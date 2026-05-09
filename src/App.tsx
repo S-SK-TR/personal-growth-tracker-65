@@ -14,6 +14,7 @@ function AnimatedRoutes() {
   const location = useLocation()
   const isAuthenticated = useStore(state => state.isAuthenticated)
 
+
   return (
     <Routes location={location}>
       <Route path="/" element={<Navigate to={isAuthenticated ? '/dashboard' : '/auth'} replace />} />
