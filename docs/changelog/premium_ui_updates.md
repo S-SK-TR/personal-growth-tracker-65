@@ -14,6 +14,7 @@
   - `src/features/notes/components/Notes.tsx`
 - **TypeScript JSX Hatası Giderildi:** `src/core/hooks/useStore.ts` dosyasının uzantısı `.tsx` olarak değiştirilerek içerisindeki `StoreContext.Provider` (JSX) kullanımının derleyici tarafından doğru okunması sağlandı.
 - **Zustand Provider Hatası Çözüldü:** Konsoldaki `TypeError: Cannot read properties of null (reading 'subscribe')` hatasını çözmek için `App.tsx` içerisinde tüm uygulama `StoreProvider` ile sarmalandı.
+- **Zustand Mimarisi Refactor Edildi:** Vercel üzerinde boş ekran hatasına neden olan çoklu ve uyumsuz Context kullanımı giderildi. `StoreProvider` ve Zustand `persist` özellikleri doğrudan `src/core/store/store.ts` dosyasına taşındı. `useStore` hook'u bileşen bazlı (selector) state yönetimini düzgün yapabilmesi için `useRef` kullanılarak doğru Context Pattern'ine geçirildi ve kullanılmayan `hooks/useStore.tsx` dosyası silindi.
 - **CSS Import Hatası Düzeltildi:** `main.tsx` içerisindeki yanlış CSS importu (`globals.css`) kaldırılarak, Tailwind direktiflerinin bulunduğu güncel `index.css` import edildi.
 
 ### 2. PWA (Progressive Web App) Entegrasyonu

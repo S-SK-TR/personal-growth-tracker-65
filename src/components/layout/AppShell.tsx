@@ -2,7 +2,7 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Home, Dumbbell, Apple, Heart, BookOpen, Moon, Sun, Menu, X } from 'lucide-react'
 import { useState } from 'react'
-import { useStore } from '@/core/hooks/useStore'
+import { useStore } from '@/core/store/store'
 
 const navItems = [
   { to: '/dashboard', icon: Home, label: 'Dashboard' },

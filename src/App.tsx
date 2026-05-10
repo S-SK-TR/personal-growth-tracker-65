@@ -8,7 +8,7 @@ import { Exercise } from './features/exercise/components/Exercise'
 import { Meditation } from './features/meditation/components/Meditation'
 import { Notes } from './features/notes/components/Notes'
 import { Auth } from './features/auth/components/Auth'
-import { useStore, StoreProvider } from './core/hooks/useStore'
+import { useStore, StoreProvider } from './core/store/store'
 
 function AnimatedRoutes() {
   const location = useLocation()

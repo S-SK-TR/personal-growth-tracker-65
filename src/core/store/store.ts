@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useRef, ReactNode } from 'react'
 import { useStore as useZustandStore } from 'zustand'
 
 interface AuthState {
@@ -68,28 +68,14 @@ interface ExerciseActions {
 
 type Store = AuthState & AuthActions & HealthTrackingState & HealthTrackingActions & NutritionState & NutritionActions & ExerciseState & ExerciseActions
 
-export const StoreContext = createContext<ReturnType<typeof createStore>>(null!)
-
-export const useStore = () => {
-  const api = useContext(StoreContext)
-  return useZustandStore(api)
-}
-
 export const createStore = () => create<Store>()(
   persist(
     (set) => ({
-      // Auth State
       isAuthenticated: false,
       user: null,
-
-      // Auth Actions
       login: (user) => set({ isAuthenticated: true, user }),
       logout: () => set({ isAuthenticated: false, user: null }),
-
-      // Health Tracking State
       measurements: [],
-
-      // Health Tracking Actions
       addMeasurement: (measurement) => set((state) => ({
         measurements: [...state.measurements, measurement]
       })),
@@ -101,11 +87,7 @@ export const createStore = () => create<Store>()(
       deleteMeasurement: (date) => set((state) => ({
         measurements: state.measurements.filter((m) => m.date !== date)
       })),
-
-      // Nutrition State
       meals: [],
-
-      // Nutrition Actions
       addMeal: (meal) => set((state) => ({
         meals: [...state.meals, meal]
       })),
@@ -117,11 +99,7 @@ export const createStore = () => create<Store>()(
       deleteMeal: (id) => set((state) => ({
         meals: state.meals.filter((m) => m.id !== id)
       })),
-
-      // Exercise State
       workouts: [],
-
-      // Exercise Actions
       addWorkout: (workout) => set((state) => ({
         workouts: [...state.workouts, workout]
       })),
@@ -139,3 +117,23 @@ export const createStore = () => create<Store>()(
     }
   )
 )
+
+export type AppStore = ReturnType<typeof createStore>
+
+export const StoreContext = createContext<AppStore | null>(null)
+
+export const StoreProvider = ({ children }: { children: ReactNode }) => {
+  const storeRef = useRef<AppStore>()
+  if (!storeRef.current) {
+    storeRef.current = createStore()
+  }
+  return <StoreContext.Provider value={storeRef.current}>{children}</StoreContext.Provider>
+}
+
+export function useStore<T>(selector: (state: Store) => T): T {
+  const store = useContext(StoreContext)
+  if (!store) {
+    throw new Error('Missing StoreProvider in React tree')
+  }
+  return useZustandStore(store, selector)
+}

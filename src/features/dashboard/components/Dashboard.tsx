@@ -1,6 +1,6 @@
 import { GlassCard } from '@/components/ui/GlassCard'
 import { BentoGrid, BentoCard } from '@/components/ui/BentoGrid'
-import { useStore } from '@/core/hooks/useStore'
+import { useStore } from '@/core/store/store'
 import { Heart, Apple, Dumbbell, BookOpen, Target, TrendingUp, TrendingDown } from 'lucide-react'
 import { motion } from 'framer-motion'
 
