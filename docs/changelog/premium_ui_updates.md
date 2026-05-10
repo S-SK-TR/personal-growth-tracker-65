@@ -12,9 +12,9 @@
   - `src/features/exercise/components/Exercise.tsx`
   - `src/features/meditation/components/Meditation.tsx`
   - `src/features/notes/components/Notes.tsx`
-- **TypeScript JSX Hatası Giderildi:** `src/core/hooks/useStore.ts` dosyasının uzantısı `.tsx` olarak değiştirilerek içerisindeki `StoreContext.Provider` (JSX) kullanımının derleyici tarafından doğru okunması sağlandı.
+- **TypeScript JSX Hatası Giderildi:** Başlangıçta `src/core/hooks/useStore.ts` dosyasının uzantısı `.tsx` yapılmıştı. Ancak daha sonra tüm mimari `src/core/store/store.ts` dosyasına taşınınca aynı sorun Vercel build aşamasında ("Expected > but found value") tekrar yaşandı. Bu sorunu kökten çözmek için `store.ts` dosyası `store.tsx` olarak yeniden adlandırıldı, çünkü içerisinde React Context `Provider` (JSX syntax) barındırıyor.
 - **Zustand Provider Hatası Çözüldü:** Konsoldaki `TypeError: Cannot read properties of null (reading 'subscribe')` hatasını çözmek için `App.tsx` içerisinde tüm uygulama `StoreProvider` ile sarmalandı.
-- **Zustand Mimarisi Refactor Edildi:** Vercel üzerinde boş ekran hatasına neden olan çoklu ve uyumsuz Context kullanımı giderildi. `StoreProvider` ve Zustand `persist` özellikleri doğrudan `src/core/store/store.ts` dosyasına taşındı. `useStore` hook'u bileşen bazlı (selector) state yönetimini düzgün yapabilmesi için `useRef` kullanılarak doğru Context Pattern'ine geçirildi ve kullanılmayan `hooks/useStore.tsx` dosyası silindi.
+- **Zustand Mimarisi Refactor Edildi:** Vercel üzerinde boş ekran hatasına neden olan çoklu ve uyumsuz Context kullanımı giderildi. `StoreProvider` ve Zustand `persist` özellikleri doğrudan `src/core/store/store.tsx` dosyasına taşındı. `useStore` hook'u bileşen bazlı (selector) state yönetimini düzgün yapabilmesi için `useRef` kullanılarak doğru Context Pattern'ine geçirildi ve kullanılmayan `hooks/useStore.tsx` dosyası silindi.
 - **CSS Import Hatası Düzeltildi:** `main.tsx` içerisindeki yanlış CSS importu (`globals.css`) kaldırılarak, Tailwind direktiflerinin bulunduğu güncel `index.css` import edildi.
 
 ### 2. PWA (Progressive Web App) Entegrasyonu
